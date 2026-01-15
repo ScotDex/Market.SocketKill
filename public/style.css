@@ -1,95 +1,79 @@
-    :root {
-            --bg-color: #0a0b0d;
-            --panel-bg: rgba(20, 22, 26, 0.7);
-            --accent-glow: rgba(0, 255, 157, 0.4);
-            --whale-glow: rgba(255, 60, 60, 0.5);
-            --text-main: #e0e0e0;
-            --text-dim: #888;
-            --neon-green: #00ff9d;
-            --neon-red: #ff3c3c;
-        }
+/* 2026 Tactical UI Variables */
+:root {
+    --bg: #0d0f12;
+    --glass: rgba(22, 26, 30, 0.75);
+    --border: rgba(255, 255, 255, 0.08);
+    --neon-green: #00ff9d;
+    --neon-red: #ff3c3c;
+    --text-dim: #9ca3af;
+    --text-bright: #f3f4f6;
+}
 
-        body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, #1a1c20 0%, #0a0b0d 100%);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+body {
+    background: var(--bg);
+    color: var(--text-bright);
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    margin: 0;
+}
 
-        .ledger-container {
-            width: 90%;
-            max-width: 1000px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            padding: 2rem;
-        }
+.ledger-card {
+    background: var(--glass);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 900px;
+    overflow: hidden;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums; /* Keeps numbers aligned */
+}
 
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
+th {
+    text-align: left;
+    padding: 16px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+}
 
-        .status-tag {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
+td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-family: 'JetBrains Mono', monospace; /* Professional tech font */
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
+.delta-whale {
+    color: var(--neon-red);
+    font-weight: 800;
+    text-shadow: 0 0 12px rgba(255, 60, 60, 0.3);
+}
 
-        th {
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 1rem;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-        }
+.delta-active {
+    color: var(--neon-green);
+}
 
-        td {
-            padding: 1rem;
-            font-family: 'Courier New', Courier, monospace; /* Monospace for numbers */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+.pulse-dot {
+    height: 8px;
+    width: 8px;
+    background-color: var(--neon-green);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+}
 
-        .delta-positive { color: var(--neon-green); font-weight: bold; }
-        .delta-whale { color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); font-weight: 900; }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-            cursor: crosshair;
-        }
-
-        .badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .whale-badge { background: var(--neon-red); color: white; }
+@keyframes pulse {
+    0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
+    70% { opacity: 0.5; box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
+    100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+}

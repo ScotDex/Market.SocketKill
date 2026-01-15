@@ -5,7 +5,7 @@ class DeltaService {
 
     loadPreviousState(data) {
         if (!data) return;
-        this.previousSnapshot = new Map (data.map(sys => [sys.system_id, sys.npc.kills]));
+        this.previousSnapshot = new Map (data.map(sys => [sys.system_id, sys.npc_kills]));
     }
 
     calculate(currentData) {
@@ -32,3 +32,5 @@ class DeltaService {
         
     }
 }
+
+module.exports = DeltaService

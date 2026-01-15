@@ -1,30 +1,30 @@
-// Logic to update the table from your API
-    async function refreshLedger() {
-        try {
-            // Replace with your actual endpoint
-            const response = await fetch('/api/krab-hotlist');
-            const data = await response.json();
-            
-            const tbody = document.getElementById('leaderboard-body');
-            tbody.innerHTML = ''; // Clear current rows
+const WHALE_THRESHOLD = 300;
 
-            data.forEach((sys, index) => {
-                const isWhale = sys.delta > 300;
-                const row = `
-                    <tr>
-                        <td>${(index + 1).toString().padStart(2, '0')}</td>
-                        <td>${sys.name}</td>
-                        <td class="${isWhale ? 'delta-whale' : 'delta-positive'}">+${sys.delta}</td>
-                        <td><span class="badge ${isWhale ? 'whale-badge' : ''}">${isWhale ? 'WHALE' : 'ACTIVE'}</span></td>
-                        <td>${sys.security}</td>
-                    </tr>
-                `;
-                tbody.insertAdjacentHTML('beforeend', row);
-            });
-        } catch (e) {
-            console.log("Waiting for next delta snapshot...");
-        }
+async function updateLedger() {
+    try {
+        const response = await fetch('/api/krab-hotlist');
+        const systems = await response.json();
+        
+        const tbody = document.getElementById('ledger-body');
+        tbody.innerHTML = systems.map((sys, i) => {
+            const isWhale = sys.delta >= WHALE_THRESHOLD;
+            return `
+                <tr>
+                    <td style="color: var(--text-dim)">${(i+1).toString().padStart(2, '0')}</td>
+                    <td><strong>${sys.name}</strong></td>
+                    <td class="${isWhale ? 'delta-whale' : 'delta-active'}">
+                        ${isWhale ? '▲ ' : '+'} ${sys.delta}
+                    </td>
+                    <td><span class="pulse-dot"></span>${sys.region}</td>
+                    <td style="text-align: right">${sys.security.toFixed(1)}</td>
+                </tr>
+            `;
+        }).join('');
+    } catch (err) {
+        console.error("Snapshot sync in progress...");
     }
+}
 
-    // Refresh every minute to match ESI cache
-    setInterval(refreshLedger, 60000);
+// Initial load and hourly sync
+updateLedger();
+setInterval(updateLedger, 60000);

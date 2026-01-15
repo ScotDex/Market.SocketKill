@@ -2,51 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRAB.SCAN // Tactical Ledger</title>
-    <style>
-    
-    </style>
+    <title>KRAB.SCAN // Tactical Intelligence</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="ledger-container">
-    <header>
-        <h1>KRAB.SCAN // Tactical Ledger</h1>
-        <div class="status-tag">System Live // Delta Refresh: 60s</div>
-    </header>
+    <div class="ledger-card">
+        <div style="padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 1.2rem; font-weight: bold; letter-spacing: 1px;">KRAB.SCAN <span style="color: var(--text-dim); font-weight: normal;">v2.0</span></div>
+            <div id="timestamp" style="font-size: 0.75rem; color: var(--text-dim);">LAST SWEEP: CONNECTING...</div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>System</th>
+                    <th>NPC Delta</th>
+                    <th>Region / Heartbeat</th>
+                    <th style="text-align: right">SEC</th>
+                </tr>
+            </thead>
+            <tbody id="ledger-body">
+                </tbody>
+        </table>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Solar System</th>
-                <th>NPC Delta (1h)</th>
-                <th>Classification</th>
-                <th>Security</th>
-            </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-            <tr>
-                <td>01</td>
-                <td>J-GAMP</td>
-                <td class="delta-whale">+412</td>
-                <td><span class="badge whale-badge">WHALE DETECTED</span></td>
-                <td>-0.4</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>V-0LTA</td>
-                <td class="delta-positive">+118</td>
-                <td><span class="badge">ACTIVE</span></td>
-                <td>-0.1</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<script>
-</script>
-
+    <script src="app.js"></script>
 </body>
 </html>

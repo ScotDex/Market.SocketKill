@@ -13,10 +13,6 @@ class ESIClient{
         });
 
         this.cache = {
-            characters: new Map(),
-            corporations: new Map(),
-            types: new Map(),
-            systems: new Map(),
             regions: new Map()
         };
 
@@ -121,6 +117,8 @@ class ESIClient{
     async getSystemKills(){
         return await this.fetchAndCache(id, 'system_kills', '/universe/system_kills');
     }
+
+    
 
 }
 module.exports = ESIClient;
