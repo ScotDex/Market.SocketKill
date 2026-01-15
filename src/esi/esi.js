@@ -1,126 +1,96 @@
-const axios = require(`axios`);
-const fs = require(`fs`).promises;
+const axios = require('axios');
+const fs = require('fs').promises;
 
+class ESIClient {
+        constructor(contactInfo) {
+                this.api = axios.create({
+                        baseURL: "https://esi.evetech.net",
+                        timeout: 15000,
+                        headers: { 'User-Agent': `Krab.Scan (${contactInfo})`, 
+                        'X-Compatibility-Date': '2025-12-16'},
+                        'Accept': 'application/json',
+                
+                });
 
-class ESIClient{
-    constructor(contactInfo) {
-        this.api = axios.create({
-            baseURL: "https://esi.evetech.net/latest",
-            timeout: 15000,
-            headers: {
-                'User-Agent': `Krab.Scan (${contactInfo})`,
-            }
-        });
+                this.cache = {
+                        regions: new Map() // Only keep what the Ledger needs
+                };
 
-        this.cache = {
-            regions: new Map()
-        };
+                this.staticSystemData = {};
+                this.isDirty = false;
 
-        this.staticSystemData = {};
-        this.isDirty = false;
-
-        setInterval(() => {
-            if (this.isDirty){
-                this.saveCache('./data/esi_cache.json');   
-            }
-        }, 1 * 60 * 1000);
-    }
-    async fetchAndCache(id, cacheCategory, endpoint) {
-        if (!id || id === 0) return "Unknown";
-
-        const internalCache = this.cache[cacheCategory];
-        if (internalCache && internalCache.has(id)) {
-            return internalCache.get(id);
+                // Persist the Region names once an hour or if changed
+                setInterval(() => {
+                        if (this.isDirty) this.saveCache('./data/esi_cache.json');
+                }, 60 * 60 * 1000);
         }
 
-        try {
-            const response = await this.api.get(`${endpoint}/${id}/`);
-            const name = response.data.name;
-            
-            if (internalCache) internalCache.set(id, name);
-            this.isDirty = true;
-            return name;
-        } catch (error) {
-            console.error(`[ESI Error] Category: ${cacheCategory}, ID: ${id} - ${error.message}`);
-            return "Unknown";
+        // Fetches and caches Region names (e.g., 10000002 -> "The Forge")
+        async getRegionName(regionId) {
+                if (!regionId) return "Unknown";
+                if (this.cache.regions.has(regionId)) return this.cache.regions.get(regionId);
+
+                try {
+                        const response = await this.api.get(`/universe/regions/${regionId}/`);
+                        const name = response.data.name;
+                        this.cache.regions.set(regionId, name);
+                        this.isDirty = true;
+                        return name;
+                } catch (err) {
+                        return "Unknown Region";
+                }
         }
-    }
 
-    async saveCache(filePath) {
-        try {
-            const persistData = {
-                characters: Object.fromEntries(this.cache.characters),
-                corporations: Object.fromEntries(this.cache.corporations),
-                types: Object.fromEntries(this.cache.types),
-                regions: Object.fromEntries(this.cache.regions)
-            };
-            await fs.writeFile(filePath, JSON.stringify(persistData, null, 2));
-            this.isDirty = false; // Reset flag after successful save
-            console.log("💾 Cache persisted to disk.");
-        } catch (err) {
-            console.error("❌ Save failed:", err.message);
+        // The core data fetch for the Delta Service
+        async getSystemKills() {
+                try {
+                        const { data } = await this.api.get('/universe/system_kills');
+                        return data; // Array of { system_id, ship_kills, npc_kills, pod_kills }
+                } catch (error) {
+                        console.error(`[ESI Error] System Kills Fetch Failed: ${error.message}`);
+                        return [];
+                }
         }
-    }
 
-    async loadCache(filePath) {
-        try {
-            const data = await fs.readFile(filePath, 'utf8');
-            if (!data || data.trim() === "") {
-            console.warn("📁 Cache file is empty. Initializing default structure...");
-            this.isDirty = true; // Force a save later
-            return;
+        // Static System Data (ID -> Name, Sec, RegionID)
+        async loadSystemCache(filePath) {
+                try {
+                        const data = await fs.readFile(filePath, 'utf8');
+                        this.staticSystemData = JSON.parse(data);
+                        return true;
+                } catch (err) {
+                        console.error("Critical: Static system data missing!");
+                        return false;
+                }
         }
-            const json = JSON.parse(data);
-            this.cache.characters = new Map(Object.entries(json.characters || {}));
-            this.cache.corporations = new Map(Object.entries(json.corporations || {}));
-            this.cache.types = new Map(Object.entries(json.types || {}));
-            this.cache.regions = new Map(Object.entries(json.regions || {}));
-            console.log("📂 Persistent cache loaded.");
-        } catch (err) {
-            console.warn("⚠️ No cache file found, starting fresh.");
+
+        getSystemDetails(id) {
+                return this.staticSystemData[id] || null;
         }
-    }
 
-    async getCharacterID(name) {
-        try {
-            const { data } = await this.api.post('/universe/ids/', [name]);
-            return data.characters?.[0]?.id || null;
-        } catch (error) {
-            console.error(`Could not resolve ID for ${name}`);
-            return null;
+        async loadCache(filePath) {
+                try {
+                        const data = await fs.readFile(filePath, 'utf8');
+                        if (!data || data.trim() === "") {
+                                console.warn("📁 Cache file is empty. Initializing default structure...");
+                                this.isDirty = true; // Force a save later
+                                return;
+                        }
+                        const json = JSON.parse(data);
+                        this.cache.regions = new Map(Object.entries(json.regions || {}));
+                        console.log("📂 Persistent cache loaded.");
+                } catch (err) {
+                        console.warn("⚠️ No cache file found, starting fresh.");
+                }
         }
-    }
-    
-    async loadSystemCache(filePath) {
-        try {
-            const data = await fs.readFile(filePath, 'utf8');
-            this.staticSystemData = JSON.parse(data);
-            return true;
-        } catch (err) {
-            console.error("Failed to load static system data:", err.message);
-            return false;
+
+
+        async saveCache(filePath) {
+                const persistData = { regions: Object.fromEntries(this.cache.regions) };
+                await fs.writeFile(filePath, JSON.stringify(persistData, null, 2));
+                this.isDirty = false;
+                console.log("💾 Region cache saved.");
         }
-    }
-
-    findSystemByName(name) {
-        if (!name) return null;
-        const query = name.toLowerCase();
-        return Object.values(this.staticSystemData).find(sys => 
-            sys.name.toLowerCase().startsWith(query)
-        ) || null;
-    }
-
-    getSystemDetails(id) {
-        return this.staticSystemData[id] || null;
-    }
-
-    async getSystemKills(){
-        return await this.fetchAndCache(id, 'system_kills', '/universe/system_kills');
-    }
-
-    
-
 }
+
 module.exports = ESIClient;
-
-

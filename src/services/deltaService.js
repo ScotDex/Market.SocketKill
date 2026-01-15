@@ -1,6 +1,18 @@
+const fs = require('fs').promises;
+
 class DeltaService {
     constructor(){
         this.previousSnapshot = new Map();
+    }
+
+    async saveSnapshot(filepath) {
+        try {
+            const data = Array.from(this.previousSnapshot.entries());
+            await fs.writeFile(filepath, JSON.stringify(data, null, 2));
+            console.log("Snapshot Saved to Disk");
+        } catch (err) {
+            console.error("failed to save snapshot", err.message);
+        }
     }
 
     loadPreviousState(data) {
@@ -9,7 +21,7 @@ class DeltaService {
     }
 
     calculate(currentData) {
-        return currentData.map(current => {
+        const results = currentData.map(current => {
             const prevKills = this.previousSnapshot.get(current.system_id) || 0
             const delta = current.npc_kills - prevKills;
 
@@ -22,12 +34,15 @@ class DeltaService {
         
             };
         });
+
+        this.previousSnapshot = new Map(currentData.map(sys => [sys.system_id, sys.npc_kills]));
+        return results;
     }
 
     determineIntensity(kills, delta) {
-        if (kills > 5000) return '';
-        if (delta > 1000) return '';
-        if (delta > -500) return '';
+        if (kills > 5000) return 'High';
+        if (delta > 1000) return 'Medium';
+        if (delta > -500) return 'Shite';
         return 'STABLE';
         
     }
