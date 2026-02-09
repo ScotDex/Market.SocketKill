@@ -1,0 +1,18 @@
+services:
+  eve-bot:
+    build: .
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./itemCache.json:/usr/src/app/itemCache.json
+    deploy:
+      resources:
+        limits:
+          memory: 128M  
+          cpus: '0.10' 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"  
