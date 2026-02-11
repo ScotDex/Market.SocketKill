@@ -1,79 +1,45 @@
-/* 2026 Tactical UI Variables */
 :root {
-    --bg: #0d0f12;
-    --glass: rgba(22, 26, 30, 0.75);
-    --border: rgba(255, 255, 255, 0.08);
-    --neon-green: #00ff9d;
-    --neon-red: #ff3c3c;
-    --text-dim: #9ca3af;
-    --text-bright: #f3f4f6;
+    --market-green: #00ff41;
+    --market-dim: rgba(0, 255, 65, 0.3);
+    --warning-red: #ff3e3e;
+    --terminal-bg: #050505;
 }
 
-body {
-    background: var(--bg);
-    color: var(--text-bright);
-    font-family: 'Inter', system-ui, sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
-    margin: 0;
+/* CRT Glass Effect */
+.crt::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 100;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
 }
 
-.ledger-card {
-    background: var(--glass);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 900px;
-    overflow: hidden;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-variant-numeric: tabular-nums; /* Keeps numbers aligned */
-}
-
-th {
-    text-align: left;
-    padding: 16px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-dim);
-    border-bottom: 1px solid var(--border);
-}
-
-td {
-    padding: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    font-family: 'JetBrains Mono', monospace; /* Professional tech font */
-}
-
-.delta-whale {
-    color: var(--neon-red);
-    font-weight: 800;
-    text-shadow: 0 0 12px rgba(255, 60, 60, 0.3);
-}
-
-.delta-active {
-    color: var(--neon-green);
-}
-
-.pulse-dot {
-    height: 8px;
-    width: 8px;
-    background-color: var(--neon-green);
-    border-radius: 50%;
+/* Backlit Icon Frame */
+.asset-icon-frame {
+    border: 1px solid var(--market-dim);
+    background: #000;
+    padding: 10px;
+    box-shadow: 0 0 15px var(--market-dim);
     display: inline-block;
-    margin-right: 8px;
-    animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-    0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
-    70% { opacity: 0.5; box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
-    100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+.crt-img {
+    filter: brightness(1.2) contrast(1.1) sepia(0.5) hue-rotate(80deg);
+    /* This makes your standard icons look like they belong on a green terminal */
+}
+
+.up { color: var(--market-green); }
+.down { color: var(--warning-red); }
+
+/* The "Warped" Screen Effect */
+.terminal-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+    filter: contrast(1.1) brightness(1.1);
+    transform: perspective(1000px) rotateX(1deg); /* Subtle screen tilt */
 }

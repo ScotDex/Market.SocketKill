@@ -1,9 +1,25 @@
+const express = require ('express');
+const path = require ('path');
 const axios = require('axios');
 const fs = require(`fs`);
 const path = require(`path`);
 
-const CACHE_FILE = path.join(__dirname, `itemCache.json`)
+const app = express ();
+const port = process.env.PORT || 3000;
 
+app.use (express.static('public'));
+app.use (express.json());
+
+// Define Region Hubs
+const HUBS = [
+    { name: 'Jita', region: 10000002 },
+    { name: 'Amarr', region: 10000043 },
+    { name: 'Dodixie', region: 10000032 },
+    { name: 'Rens', region: 10000030 },
+    { name: 'Hek', region: 10000042 }
+];
+
+const CACHE_FILE = path.join(__dirname, `itemCache.json`)
 
 function loadCache() {
     if (fs.existsSync(CACHE_FILE)) {
@@ -22,14 +38,6 @@ function saveCache(cache) {
 
 let itemCache = loadCache();
 
-// Define Region Hubs
-const HUBS = [
-    { name: 'Jita', region: 10000002 },
-    { name: 'Amarr', region: 10000043 },
-    { name: 'Dodixie', region: 10000032 },
-    { name: 'Rens', region: 10000030 },
-    { name: 'Hek', region: 10000042 }
-];
 
 /**
  * Type ID resolution 
@@ -91,9 +99,3 @@ async function fetchHubPrice(hub, typeId) {
     }
 }
 
-module.exports = {
-    HUBS,
-    getTypeId,
-    fetchHubPrice
-
-};

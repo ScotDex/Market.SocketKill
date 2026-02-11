@@ -1,7 +1,7 @@
 services:
   krab.scan:
     build: .
-    container_name: krab.scan
+    container_name: market.socketkill
     restart: always
     env_file:
       - .env
