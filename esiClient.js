@@ -6,7 +6,7 @@ class ESIClient {
                 this.api = axios.create({
                         baseURL: "https://esi.evetech.net",
                         timeout: 15000,
-                        headers: { 'User-Agent': `Krab.Scan (${contactInfo})`, 
+                        headers: { 'User-Agent': `market.socketkill.com (${contactInfo})`, 
                         'X-Compatibility-Date': '2025-12-16'},
                         'Accept': 'application/json',
                 
@@ -38,17 +38,6 @@ class ESIClient {
                         return name;
                 } catch (err) {
                         return "Unknown Region";
-                }
-        }
-
-        // The core data fetch for the Delta Service
-        async getSystemKills() {
-                try {
-                        const { data } = await this.api.get('/universe/system_kills');
-                        return data; // Array of { system_id, ship_kills, npc_kills, pod_kills }
-                } catch (error) {
-                        console.error(`[ESI Error] System Kills Fetch Failed: ${error.message}`);
-                        return [];
                 }
         }
 

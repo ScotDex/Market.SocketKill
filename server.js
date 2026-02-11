@@ -1,14 +1,9 @@
-const express = require ('express');
+
 const path = require ('path');
 const axios = require('axios');
 const fs = require(`fs`);
 const path = require(`path`);
 
-const app = express ();
-const port = process.env.PORT || 3000;
-
-app.use (express.static('public'));
-app.use (express.json());
 
 // Define Region Hubs
 const HUBS = [
