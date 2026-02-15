@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             set -e
-            cd market-site
+            cd Market.SocketKill
             git pull
             docker compose up -d --build
            
