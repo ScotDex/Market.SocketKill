@@ -6,8 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8099:8099"
-      - "80:80"
+      - "2096:2096"
     volumes:
       - "./data:/usr/src/app/data"
     deploy:

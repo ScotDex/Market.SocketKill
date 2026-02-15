@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARKET.SOCKETKILL.COM // TRADE_HUB_SCANNER</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="scanlines"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="terminal-header">
+            <div class="header-left">
+                <span class="terminal-prompt">></span>
+                <span class="terminal-status">MARKET_SCANNER_ONLINE</span>
+            </div>
+            <div class="header-center">
+                <h1 class="site-title">MARKET.SOCKETKILL.COM</h1>
+            </div>
+            <div class="header-right">
+                <span id="clock" class="clock">00:00:00 UTC</span>
+            </div>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <span class="prompt">></span>
+            <input type="text" 
+                   id="item-search" 
+                   placeholder="ENTER_ITEM_NAME" 
+                   autocomplete="off">
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="content-grid">
+            
+            <!-- Left Column: Item Display -->
+            <section class="item-display">
+                <div class="item-header">
+                    <div class="item-icon-container">
+                        <img id="item-icon" 
+                             src="https://api.socketkill.com/render/market/34" 
+                             alt="Item Icon">
+                    </div>
+                    <div class="item-info">
+                        <h2 id="item-name">TRITANIUM</h2>
+                        <p id="item-id">TYPE_ID: 34</p>
+                    </div>
+                </div>
+
+                <!-- Trade Hub Prices -->
+                <div class="hub-prices">
+                    <div class="hub-row" data-hub="jita">
+                        <span class="hub-name">JITA</span>
+                        <span class="hub-price">--</span>
+                    </div>
+                    <div class="hub-row" data-hub="amarr">
+                        <span class="hub-name">AMARR</span>
+                        <span class="hub-price">--</span>
+                    </div>
+                    <div class="hub-row" data-hub="dodixie">
+                        <span class="hub-name">DODIXIE</span>
+                        <span class="hub-price">--</span>
+                    </div>
+                    <div class="hub-row" data-hub="rens">
+                        <span class="hub-name">RENS</span>
+                        <span class="hub-price">--</span>
+                    </div>
+                    <div class="hub-row" data-hub="hek">
+                        <span class="hub-name">HEK</span>
+                        <span class="hub-price">--</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: AdSense -->
+            <aside class="ad-space">
+                <!-- AdSense goes here -->
+                <div class="ad-placeholder">
+                    [ ADVERTISEMENT ]
+                </div>
+            </aside>
+
+        </main>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state" style="display: none;">
+            <span class="scanning-text">> SCANNING TRADE HUBS</span>
+            <span class="dot-pulse"></span>
+        </div>
+
+    </div>
+
+    <!-- Footer (Socket.Kill style) -->
+    <footer class="legal-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <span class="ccp-notice">
+                    EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights reserved.//
+                </span>
+            </div>
+            <div class="footer-right">
+                <a href="https://socketkill.com" target="_blank" class="footer-link">SOCKETKILL.COM</a>
+                <span class="separator">//</span>
+                <a href="https://api.socketkill.com/docs/" target="_blank" class="footer-link">API</a>
+                <span class="separator">//</span>
+                <a href="https://discord.gg/Sx5tFz6kcr" target="_blank" class="footer-link">DISCORD</a>
+                <span class="separator">//</span>
+                <span class="version">v1.0.0-BETA</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="market.js"></script>
+</body>
+</html>
