@@ -13,8 +13,8 @@ const options = {
     key: fs.readFileSync('./ssl/origin.key')
 };
 
-  https.createServer(options, app).listen(443, () => {
-       console.log('HTTPS server running on port 443');
+  https.createServer(options, app).listen(2096, () => {
+       console.log('HTTPS server running on port 2096');
    });
 
 // Serve static files
