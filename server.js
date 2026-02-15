@@ -10,7 +10,7 @@ const port = process.env.PORT || 2096;
 
 const options = {
     cert: fs.readFileSync('./ssl/origin.pem'),
-    key: fs.readFileSync('./ssl/origin-key.pem')
+    key: fs.readFileSync('./ssl/origin.key')
 };
 
   https.createServer(options, app).listen(443, () => {
