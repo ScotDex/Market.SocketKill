@@ -2,9 +2,22 @@ const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
+const https = require('https');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2096;
+
+const options = {
+    cert: fs.readFileSync('./ssl/origin.pem'),
+    key: fs.readFileSync('./ssl/origin-key.pem')
+};
+
+  https.createServer(options, app).listen(443, () => {
+       console.log('HTTPS server running on port 443');
+   });
+
+// Serve static files
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -22,7 +35,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const CACHE_FILE = path.join(__dirname, 'itemCache.json');
+const CACHE_FILE = path.join(__dirname, 'data','itemCache.json');
 const PRICE_CACHE = new Map(); // In-memory price cache
 const PRICE_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 

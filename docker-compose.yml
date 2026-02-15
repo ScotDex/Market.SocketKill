@@ -9,6 +9,7 @@ services:
       - "2096:2096"
     volumes:
       - "./data:/usr/src/app/data"
+      - "./data:/usr/src/app/ssl"
     deploy:
       resources:
         limits:
