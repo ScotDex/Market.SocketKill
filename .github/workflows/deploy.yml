@@ -1,4 +1,4 @@
-name: Deploy Intel-Engine
+name: Deploy Market-Tool
 on:
   push:
     branches: [ main ]
@@ -20,5 +20,6 @@ jobs:
             set -e
             cd Market.SocketKill
             git pull
+            docker compose down
             docker compose up -d --build
            
