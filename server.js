@@ -4,6 +4,9 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const https = require('https');
+const { HUBS, PRICE_CACHE_TTL } = require('./config/hubs');
+const { formatISKExact, findCheapestHub, getUTCTimestamp } = require('./helpers/formatters');
+
 
 const app = express();
 const port = process.env.PORT || 2096;
@@ -22,22 +25,12 @@ const options = {
 app.use(express.static('public'));
 app.use(express.json());
 
-// Define Region Hubs
-const HUBS = [
-    { name: 'Jita', region: 10000002 },
-    { name: 'Amarr', region: 10000043 },
-    { name: 'Dodixie', region: 10000032 },
-    { name: 'Rens', region: 10000030 },
-    { name: 'Hek', region: 10000042 }
-];
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const CACHE_FILE = path.join(__dirname, 'data','itemCache.json');
 const PRICE_CACHE = new Map(); // In-memory price cache
-const PRICE_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 // Item name -> ID cache
 function loadCache() {
@@ -140,7 +133,8 @@ app.get('/api/market/compare', async (req, res) => {
             typeId: typeId,
             bestPrice: bestPrice,
             hubs: hubResults,
-            timestamp: new Date().toISOString()
+            cheapestHub: findCheapestHub(hubResults),
+            timestamp: getUTCTimestamp()
         };
 
         // Cache the result
@@ -155,9 +149,4 @@ app.get('/api/market/compare', async (req, res) => {
         console.error("Market aggregation error:", error);
         res.status(500).json({ error: "INTERNAL_CORE_ERROR" });
     }
-});
-
-// Start server
-app.listen(port, () => {
-    console.log(`[MARKET.SOCKETKILL.COM] Server running on port ${port}`);
 });
