@@ -1,0 +1,77 @@
+# Market.SocketKill.com - Changelog
+
+## v0.0.1-BETA - February 2025
+
+### Initial Public Beta Release
+
+**Core Features**
+- Multi-hub price comparison engine (Jita, Amarr, Dodixie, Rens, Hek)
+- Real-time ESI market data integration
+- Item type search with enter-key submission
+- Automatic cheapest hub highlighting
+- Type ID resolution and item icon rendering via api.socketkill.com
+
+**Visual Design**
+- CRT terminal aesthetic matching Socket.Kill branding
+- Monospace typography with Share Tech Mono font
+- Scanline overlay effect for authentic monitor feel
+- UTC clock display in header
+- Loading state with animated dot pulse during API queries
+- Green phosphor color scheme (#3fb950 accent)
+
+**Technical Implementation**
+- Backend API endpoint: `/api/market/compare?name={itemName}`
+- Item icon CDN: `https://api.socketkill.com/render/market/{typeId}`
+- Price formatting with locale-aware thousand separators
+- Null price handling for unavailable items (displays "N/A")
+- Cloudflare Analytics integration
+- Custom favicon
+
+**User Experience**
+- Visual feedback for cheapest hub (.cheapest class styling)
+- Loading state indicator during trade hub scanning
+- Error handling with user-friendly alerts
+- Responsive layout with grid-based content organization
+
+---
+
+## v0.0.2-BETA - Planned (Mid-February 2025)
+
+### Monetization & UX Improvements
+
+**Planned Additions**
+- AdSense removal (visual quality preservation)
+- Self-managed affiliate rotation block
+- Item search autocomplete/suggester system
+- Audio feedback on search submission (optional beep)
+- PLEX price ticker integration
+
+**Planned Technical Changes**
+- Item name caching for autocomplete
+- Fuzzy search matching algorithm
+- Search history persistence
+- Price history graphs (30-day trend data from ESI)
+
+---
+
+## Development Notes
+
+**Backend Dependencies**
+- ESI market data API (CCP official)
+- Redis caching layer (inherited from Socket.Kill infrastructure)
+- Item type database with fuzzy matching support
+
+
+**Known Issues**
+- No autocomplete suggestions yet (users must remember exact item names)
+- AdSense block breaks visual cohesion (removal planned)
+- No price history visualization
+- Single market order depth (sell orders only, no buy order analysis)
+
+---
+
+**Credits:**
+- Market data: CCP ESI API
+- Design: Terminal aesthetic inspired by Socket.Kill
+- Built by: Dexomus Viliana
+
