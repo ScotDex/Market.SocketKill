@@ -9,14 +9,17 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// At top of market.js
 function rotateNebula() {
-    // Force new image by adding timestamp (prevents cache)
-    document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
+    // Create new Image object to force fresh fetch
+    const img = new Image();
+    img.onload = () => {
+        document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
+    };
+    img.src = `https://api.socketkill.com/random?${Date.now()}`;
 }
 
 // Set initial background
-rotateNebula();
+document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 
 // Rotate every 5 minutes
 setInterval(rotateNebula, 300000);
