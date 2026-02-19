@@ -272,6 +272,10 @@ body {
 
 body {
     background: #0d1117 center/cover fixed no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     transition: background-image 2s ease-in-out;
 }
 

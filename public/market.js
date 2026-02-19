@@ -47,7 +47,7 @@ const affiliates = [
         description: 'New player? Get 1,000,000 skill points free',
         link: 'https://www.eveonline.com/signup?invc=e32ca441-aa95-4eb7-ad06-d2c6334a5872',
         cta: 'CLAIM BONUS',
-        icon: 'https://market.socketkill.com/friend.jpg' 
+        icon: 'https://ccdc6ab8862358874c2c39dacd9d484a.r2.cloudflarestorage.com/edge-images/friend.jpg' 
     },
     {
         id: 'digital-ocean',
@@ -63,7 +63,7 @@ const affiliates = [
         description: 'Discounts Available',
         link: 'https://nerdordie.com/shop/ref/kps2mr/',
         cta: 'GET DEAL',
-        icon: 'https://market.socketkill.com/NoD_Stacked_White.png'
+        icon: 'https://ccdc6ab8862358874c2c39dacd9d484a.r2.cloudflarestorage.com/edge-images/NoD_Stacked_White.png'
     },
     {
         id: 'ko-fi',
