@@ -12,8 +12,7 @@ updateClock();
 // At top of market.js
 function rotateNebula() {
     // Force new image by adding timestamp (prevents cache)
-    const timestamp = Date.now();
-    document.body.style.backgroundImage = `url(https://api.socketkill.com/random?t=${timestamp})`;
+    document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 }
 
 // Set initial background
