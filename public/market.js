@@ -25,17 +25,131 @@ document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 setInterval(rotateNebula, 300000);
 
 // Search functionality
-const searchInput = document.getElementById('item-search');
-const loadingState = document.getElementById('loading-state');
+// Global cache
+let itemCache = [];
 
-searchInput.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-        const query = e.target.value.trim();
-        if (query) {
-            await searchItem(query);
+// Load market items from CDN on page load
+async function loadMarketItems() {
+    try {
+        const response = await fetch('/data/market-items.json');
+        itemCache = await response.json();
+        console.log(`✅ Loaded ${itemCache.length} market items`);
+    } catch (err) {
+        console.error('❌ Failed to load market items:', err);
+    }
+}
+
+// Initialize immediately
+loadMarketItems();
+
+// Autocomplete on search input
+const searchInput = document.getElementById('item-search');
+const suggestionsContainer = document.createElement('div');
+suggestionsContainer.id = 'item-suggestions';
+suggestionsContainer.className = 'suggestion-dropdown';
+searchInput.parentElement.appendChild(suggestionsContainer);
+
+let selectedIndex = -1;
+
+searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    
+    // Minimum 2 characters
+    if (term.length < 2) {
+        hideSuggestions();
+        return;
+    }
+    
+    // Fuzzy match
+    const matches = itemCache
+        .filter(item => item.name.toLowerCase().includes(term))
+        .slice(0, 6); // Max 6 results
+    
+    if (matches.length === 0) {
+        hideSuggestions();
+        return;
+    }
+    
+    showSuggestions(matches);
+});
+
+function showSuggestions(items) {
+    selectedIndex = -1;
+    
+    suggestionsContainer.innerHTML = items.map((item, i) => 
+        `<div class="suggestion-item" data-index="${i}" data-name="${item.name}">
+            ${item.name}
+        </div>`
+    ).join('');
+    
+    suggestionsContainer.classList.add('active');
+    
+    // Click handler
+    suggestionsContainer.querySelectorAll('.suggestion-item').forEach(el => {
+        el.addEventListener('click', () => {
+            searchInput.value = el.dataset.name;
+            hideSuggestions();
+            searchItem(el.dataset.name);
+        });
+    });
+}
+
+function hideSuggestions() {
+    suggestionsContainer.classList.remove('active');
+    suggestionsContainer.innerHTML = '';
+    selectedIndex = -1;
+}
+
+// Keyboard navigation
+searchInput.addEventListener('keydown', (e) => {
+    const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+    
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+        updateSelection(items);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = Math.max(selectedIndex - 1, -1);
+        updateSelection(items);
+    } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && items[selectedIndex]) {
+            const name = items[selectedIndex].dataset.name;
+            searchInput.value = name;
+            hideSuggestions();
+            searchItem(name);
+        } else {
+            // Enter without selection - search whatever is typed
+            const query = searchInput.value.trim();
+            if (query) {
+                hideSuggestions();
+                searchItem(query);
+            }
         }
+    } else if (e.key === 'Escape') {
+        hideSuggestions();
     }
 });
+
+function updateSelection(items) {
+    items.forEach((item, i) => {
+        if (i === selectedIndex) {
+            item.classList.add('selected');
+            item.scrollIntoView({ block: 'nearest' });
+        } else {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+// Click outside to close
+document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        hideSuggestions();
+    }
+});
+
+
 
 // Affiliate Rotation System
 // Add this to market.js or create separate affiliate.js
