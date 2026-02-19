@@ -44,6 +44,7 @@ loadMarketItems();
 
 // Autocomplete on search input
 const searchInput = document.getElementById('item-search');
+const loadingState = document.getElementById('loading-state');
 const suggestionsContainer = document.createElement('div');
 suggestionsContainer.id = 'item-suggestions';
 suggestionsContainer.className = 'suggestion-dropdown';
