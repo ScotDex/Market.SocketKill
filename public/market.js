@@ -38,9 +38,9 @@ const affiliates = [
         id: 'digital-ocean',
         title: 'DIGITAL OCEAN HOSTING',
         description: '$200 credit for new accounts',
-        link: 'YOUR_DO_REFERRAL_LINK',
+        link: 'https://www.digitalocean.com/?refcode=1808909b79cf&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge',
         cta: 'GET CREDIT',
-        icon: '💧'
+        icon: 'https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg'
     },
     {
         id: 'nordvpn',
@@ -90,7 +90,7 @@ function renderAffiliate(index) {
     if (!content) return;
     
     content.innerHTML = `
-        <div class="aff-icon">${aff.icon}</div>
+        <img src="${aff.icon}" alt="${aff.id}" class="aff-icon">
         <h3 class="aff-title">${aff.title}</h3>
         <p class="aff-desc">${aff.description}</p>
         <a href="${aff.link}" 

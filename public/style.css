@@ -441,9 +441,11 @@ body {
 }
 
 .aff-icon {
-    font-size: 2.5rem;
+    width: 80px;
+    height: 80px;
     margin-bottom: 1rem;
-    filter: grayscale(20%);
+    object-fit: contain;
+    filter: brightness(0.9) contrast(1.1);
 }
 
 .aff-title {
