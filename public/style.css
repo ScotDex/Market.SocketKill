@@ -271,6 +271,11 @@ body {
 }
 
 body {
+    background: #0d1117 center/cover fixed no-repeat;
+    transition: background-image 2s ease-in-out;
+}
+
+body {
     background: 
         radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.7) 100%),
         radial-gradient(ellipse 600px 400px at 30% 40%, rgba(20, 60, 80, 0.15) 0%, transparent 50%),

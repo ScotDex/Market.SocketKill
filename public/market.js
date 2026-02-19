@@ -9,6 +9,19 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// At top of market.js
+function rotateNebula() {
+    // Force new image by adding timestamp (prevents cache)
+    const timestamp = Date.now();
+    document.body.style.backgroundImage = `url(https://api.socketkill.com/random?t=${timestamp})`;
+}
+
+// Set initial background
+rotateNebula();
+
+// Rotate every 5 minutes
+setInterval(rotateNebula, 300000);
+
 // Search functionality
 const searchInput = document.getElementById('item-search');
 const loadingState = document.getElementById('loading-state');
