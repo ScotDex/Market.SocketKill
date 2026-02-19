@@ -8,13 +8,10 @@
     <link rel="preconnect" href="https://api.socketkill.com">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <meta name="google-adsense-account" content="ca-pub-6828645415874930">
     <meta name="description"
         content="Market.SocketKill.com - Market Scanner, takes your item and compares prices on all regional hubs for the cheapest option">
     <meta name="author" content="Dexomus Viliana">
     <link rel="icon" type="image/png" href="/favicon.png">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6828645415874930"
-        crossorigin="anonymous"></script>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
         data-cf-beacon='{"token": "593adf0f572046b2997b33af3fa02734"}'></script>
     <link rel="canonical" href="https://market.socketkill.com/">
@@ -84,16 +81,29 @@
                 </div>
             </section>
 
-            <!-- Right Column: AdSense -->
+            
+Affiliate block · HTML
+Copy
 
-            <aside class="ad-space">
-                <!-- Market-Ad -->
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6828645415874930"
-                    data-ad-slot="2715338106" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </aside>
+<!-- Replace the entire <aside class="ad-space"> block with this -->
+
+<aside class="affiliate-block">
+    <div class="affiliate-header">
+        <span class="affiliate-label">SPONSORED_LINKS</span>
+        <span class="affiliate-timer" id="rotation-timer">10s</span>
+    </div>
+    
+    <div id="affiliate-content" class="affiliate-display">
+        <!-- Content rotates via JS -->
+    </div>
+    
+    <div class="affiliate-controls">
+        <button class="affiliate-nav" id="prev-affiliate">&lt;</button>
+        <div class="affiliate-dots" id="affiliate-dots"></div>
+        <button class="affiliate-nav" id="next-affiliate">&gt;</button>
+    </div>
+</aside>
+
 
         </main>
 

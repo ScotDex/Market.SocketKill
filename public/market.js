@@ -22,6 +22,165 @@ searchInput.addEventListener('keydown', async (e) => {
     }
 });
 
+// Affiliate Rotation System
+// Add this to market.js or create separate affiliate.js
+
+const affiliates = [
+    {
+        id: 'eve-online',
+        title: 'START YOUR EVE JOURNEY',
+        description: 'New player? Get 1,000,000 skill points free',
+        link: 'YOUR_EVE_RECRUIT_LINK_HERE',
+        cta: 'CLAIM BONUS',
+        icon: '🚀' // or use image URL
+    },
+    {
+        id: 'digital-ocean',
+        title: 'DIGITAL OCEAN HOSTING',
+        description: '$200 credit for new accounts',
+        link: 'YOUR_DO_REFERRAL_LINK',
+        cta: 'GET CREDIT',
+        icon: '💧'
+    },
+    {
+        id: 'nordvpn',
+        title: 'SECURE YOUR CONNECTION',
+        description: '68% off + 3 months free',
+        link: 'YOUR_VPN_AFFILIATE_LINK',
+        cta: 'GET DEAL',
+        icon: '🔒'
+    },
+    {
+        id: 'ko-fi',
+        title: 'SUPPORT SOCKETKILL',
+        description: 'Help keep these tools free',
+        link: 'https://ko-fi.com/socketkill',
+        cta: 'DONATE',
+        icon: '☕'
+    }
+    // Add more affiliates as needed
+];
+
+let currentAffiliateIndex = 0;
+let rotationInterval;
+let countdownInterval;
+const ROTATION_TIME = 15000; // 15 seconds per affiliate
+
+// Initialize affiliate system
+function initAffiliates() {
+    renderAffiliate(currentAffiliateIndex);
+    renderDots();
+    startRotation();
+    
+    // Manual navigation
+    document.getElementById('prev-affiliate')?.addEventListener('click', () => {
+        navigateAffiliate(-1);
+    });
+    
+    document.getElementById('next-affiliate')?.addEventListener('click', () => {
+        navigateAffiliate(1);
+    });
+}
+
+// Render current affiliate
+function renderAffiliate(index) {
+    const aff = affiliates[index];
+    const content = document.getElementById('affiliate-content');
+    
+    if (!content) return;
+    
+    content.innerHTML = `
+        <div class="aff-icon">${aff.icon}</div>
+        <h3 class="aff-title">${aff.title}</h3>
+        <p class="aff-desc">${aff.description}</p>
+        <a href="${aff.link}" 
+           target="_blank" 
+           rel="noopener nofollow"
+           class="aff-cta"
+           data-affiliate="${aff.id}">
+            ${aff.cta} →
+        </a>
+    `;
+    
+    // Track click (optional analytics)
+    content.querySelector('.aff-cta')?.addEventListener('click', () => {
+        console.log(`Affiliate click: ${aff.id}`);
+        // Add your analytics here if needed
+    });
+    
+    updateDots(index);
+}
+
+// Render navigation dots
+function renderDots() {
+    const dotsContainer = document.getElementById('affiliate-dots');
+    if (!dotsContainer) return;
+    
+    dotsContainer.innerHTML = affiliates.map((_, i) => 
+        `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
+    ).join('');
+    
+    // Dot click navigation
+    dotsContainer.querySelectorAll('.dot').forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            navigateAffiliate(index - currentAffiliateIndex);
+        });
+    });
+}
+
+// Update active dot
+function updateDots(index) {
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+// Navigate to affiliate (delta or absolute)
+function navigateAffiliate(delta) {
+    stopRotation();
+    currentAffiliateIndex = (currentAffiliateIndex + delta + affiliates.length) % affiliates.length;
+    renderAffiliate(currentAffiliateIndex);
+    startRotation();
+}
+
+// Auto-rotation
+function startRotation() {
+    stopRotation(); // Clear any existing intervals
+    
+    let secondsRemaining = ROTATION_TIME / 1000;
+    
+    // Update countdown timer
+    countdownInterval = setInterval(() => {
+        secondsRemaining--;
+        const timerEl = document.getElementById('rotation-timer');
+        if (timerEl) timerEl.textContent = `${secondsRemaining}s`;
+        
+        if (secondsRemaining <= 0) {
+            secondsRemaining = ROTATION_TIME / 1000;
+        }
+    }, 1000);
+    
+    // Rotate to next affiliate
+    rotationInterval = setInterval(() => {
+        currentAffiliateIndex = (currentAffiliateIndex + 1) % affiliates.length;
+        renderAffiliate(currentAffiliateIndex);
+        secondsRemaining = ROTATION_TIME / 1000;
+    }, ROTATION_TIME);
+}
+
+function stopRotation() {
+    if (rotationInterval) clearInterval(rotationInterval);
+    if (countdownInterval) clearInterval(countdownInterval);
+}
+
+// Initialize on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAffiliates);
+} else {
+    initAffiliates();
+}
+
 async function searchItem(itemName) {
     try {
         // Show loading state
