@@ -441,16 +441,14 @@ body {
 }
 
 .aff-icon {
-    width: auto;
-    height: auto;
-    max-width: 120px;
-    max-height: 120px;
-    object-fit: contain;
+    width: auto !important;
+    height: auto !important;
+    max-width: 150px !important;
+    max-height: 150px !important;
+    object-fit: contain !important;
     margin-bottom: 1rem;
-    object-fit: contain;
-    filter: brightness(0.9) contrast(1.1);
+    display: block;
 }
-
 .aff-title {
     color: var(--neon-green, #3fb950);
     font-size: 1.1rem;
