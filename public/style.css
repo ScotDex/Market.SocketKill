@@ -445,7 +445,7 @@ body {
     height: auto;
     max-width: 120px;
     max-height: 120px;
-
+    object-fit: contain;
     margin-bottom: 1rem;
     object-fit: contain;
     filter: brightness(0.9) contrast(1.1);

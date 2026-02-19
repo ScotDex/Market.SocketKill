@@ -32,7 +32,7 @@ const affiliates = [
         description: 'New player? Get 1,000,000 skill points free',
         link: 'YOUR_EVE_RECRUIT_LINK_HERE',
         cta: 'CLAIM BONUS',
-        icon: 'https://market.socketkill.com/friend.jpg' // or use image URL
+        icon: 'https://market.socketkill.com/friend.jpg' 
     },
     {
         id: 'digital-ocean',
