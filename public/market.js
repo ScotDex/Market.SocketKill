@@ -30,7 +30,7 @@ const affiliates = [
         id: 'eve-online',
         title: 'START YOUR EVE JOURNEY',
         description: 'New player? Get 1,000,000 skill points free',
-        link: 'YOUR_EVE_RECRUIT_LINK_HERE',
+        link: 'https://www.eveonline.com/signup?invc=e32ca441-aa95-4eb7-ad06-d2c6334a5872',
         cta: 'CLAIM BONUS',
         icon: 'https://market.socketkill.com/friend.jpg' 
     },
@@ -54,9 +54,9 @@ const affiliates = [
         id: 'ko-fi',
         title: 'SUPPORT SOCKETKILL',
         description: 'Help keep these tools free',
-        link: 'https://ko-fi.com/socketkill',
+        link: 'https://ko-fi.com/scottishdex',
         cta: 'DONATE',
-        icon: '☕'
+        icon: 'https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_dark.png?_gl=1*i2rs49*_gcl_au*MzQ4ODkzODgxLjE3NjcyMDIxMDg.*_ga*NjEzNDk0NDM5LjE3NjcyMDIxMDg.*_ga_M13FZ7VQ2C*czE3NzE1MTE3ODIkbzgkZzEkdDE3NzE1MTE4NTQkajYwJGwwJGgw'
     }
     // Add more affiliates as needed
 ];
