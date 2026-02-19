@@ -16,18 +16,6 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Share Tech Mono', monospace;
-    background: #0d1117;
-    color: #3fb950;
-    min-height: 100vh;
-    position: relative;
-    animation: power-flicker 35s ease-in-out infinite;
-    text-rendering: geometricPrecision;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 @keyframes power-flicker {
     0%, 95% { opacity: 1; filter: brightness(1); }
     96% { opacity: 0.85; filter: brightness(0.7); }
@@ -271,20 +259,22 @@ body {
 }
 
 body {
-    background: #0d1117 center/cover fixed no-repeat;
+    font-family: 'Share Tech Mono', monospace;
+    color: #3fb950;
+    min-height: 100vh;
+    position: relative;
+    animation: power-flicker 35s ease-in-out infinite;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Base background - JavaScript will add image via inline style */
+    background-color: #0d1117;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     transition: background-image 2s ease-in-out;
-}
-
-body {
-    background: 
-        radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.7) 100%),
-        radial-gradient(ellipse 600px 400px at 30% 40%, rgba(20, 60, 80, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse 800px 500px at 70% 60%, rgba(10, 40, 60, 0.1) 0%, transparent 50%),
-        #0d1117;
 }
 
 .hub-row.cheapest .hub-price {
