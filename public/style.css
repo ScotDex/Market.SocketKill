@@ -22,7 +22,7 @@ body {
     color: #3fb950;
     min-height: 100vh;
     position: relative;
-    animation: power-flicker 15s ease-in-out infinite;
+    animation: power-flicker 35s ease-in-out infinite;
     text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
