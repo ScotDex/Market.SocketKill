@@ -43,12 +43,12 @@ const affiliates = [
         icon: 'https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg'
     },
     {
-        id: 'nordvpn',
-        title: 'SECURE YOUR CONNECTION',
-        description: '68% off + 3 months free',
-        link: 'YOUR_VPN_AFFILIATE_LINK',
+        id: 'nerdordie',
+        title: 'DO YOU STREAM?',
+        description: 'Discounts Available',
+        link: 'https://nerdordie.com/shop/ref/kps2mr/',
         cta: 'GET DEAL',
-        icon: '🔒'
+        icon: 'https://market.socketkill.com/NoD_Stacked_White.png'
     },
     {
         id: 'ko-fi',
