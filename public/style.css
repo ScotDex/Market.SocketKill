@@ -388,7 +388,7 @@ body {
         gap: 8px;
         text-align: center;
     }
-
+}
     /* Affiliate Block Styling - Add to style.css */
 
 .affiliate-block {
@@ -557,6 +557,7 @@ body {
     transform: scale(1.1);
 }
 
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .affiliate-block {
@@ -577,4 +578,3 @@ body {
     }
 }
 
-}
