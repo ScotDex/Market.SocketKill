@@ -1,6 +1,5 @@
-const API_BASE = ''; // Same origin, no need for full URL
+const API_BASE = ''; 
 
-// Clock update
 function updateClock() {
     const now = new Date();
     const utc = now.toISOString().split('T')[1].split('.')[0];
@@ -10,7 +9,7 @@ setInterval(updateClock, 1000);
 updateClock();
 
 function rotateNebula() {
-    // Create new Image object to force fresh fetch
+   
     const img = new Image();
     img.onload = () => {
         document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
@@ -18,17 +17,10 @@ function rotateNebula() {
     img.src = `https://api.socketkill.com/random?${Date.now()}`;
 }
 
-// Set initial background
 document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
-
-// Rotate every 5 minutes
 setInterval(rotateNebula, 300000);
-
-// Search functionality
-// Global cache
 let itemCache = [];
 
-// Load market items from CDN on page load
 async function loadMarketItems() {
     try {
         const response = await fetch('/data/market-items.json');
@@ -39,10 +31,16 @@ async function loadMarketItems() {
     }
 }
 
-// Initialize immediately
+let affiliates = [];
+async function loadAffiliates() {
+    const response = await fetch('/data/ads.json');
+    affiliates = await response.json();
+    initAffiliates();
+}
+
+loadAffiliates();
 loadMarketItems();
 
-// Autocomplete on search input
 const searchInput = document.getElementById('item-search');
 const loadingState = document.getElementById('loading-state');
 const suggestionsContainer = document.createElement('div');
@@ -54,17 +52,14 @@ let selectedIndex = -1;
 
 searchInput.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
-    
-    // Minimum 2 characters
     if (term.length < 2) {
         hideSuggestions();
         return;
     }
     
-    // Fuzzy match
     const matches = itemCache
         .filter(item => item.name.toLowerCase().includes(term))
-        .slice(0, 6); // Max 6 results
+        .slice(0, 6); 
     
     if (matches.length === 0) {
         hideSuggestions();
@@ -84,8 +79,6 @@ function showSuggestions(items) {
     ).join('');
     
     suggestionsContainer.classList.add('active');
-    
-    // Click handler
     suggestionsContainer.querySelectorAll('.suggestion-item').forEach(el => {
         el.addEventListener('click', () => {
             searchInput.value = el.dataset.name;
@@ -101,7 +94,6 @@ function hideSuggestions() {
     selectedIndex = -1;
 }
 
-// Keyboard navigation
 searchInput.addEventListener('keydown', (e) => {
     const items = suggestionsContainer.querySelectorAll('.suggestion-item');
     
@@ -150,46 +142,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-
-
-// Affiliate Rotation System
-// Add this to market.js or create separate affiliate.js
-
-const affiliates = [
-    {
-        id: 'eve-online',
-        title: 'START YOUR EVE JOURNEY',
-        description: 'New player? Get 1,000,000 skill points free',
-        link: 'https://www.eveonline.com/signup?invc=e32ca441-aa95-4eb7-ad06-d2c6334a5872',
-        cta: 'CLAIM BONUS',
-        icon: 'https://edge.socketkill.com/friend.jpg' 
-    },
-    {
-        id: 'digital-ocean',
-        title: 'DIGITAL OCEAN HOSTING',
-        description: '$200 credit for new accounts',
-        link: 'https://www.digitalocean.com/?refcode=1808909b79cf&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge',
-        cta: 'GET CREDIT',
-        icon: 'https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg'
-    },
-    {
-        id: 'nerdordie',
-        title: 'DO YOU STREAM?',
-        description: 'Discounts Available',
-        link: 'https://nerdordie.com/shop/ref/kps2mr/',
-        cta: 'GET DEAL',
-        icon: 'https://edge.socketkill.com/NoD_Stacked_White.png'
-    },
-    {
-        id: 'ko-fi',
-        title: 'SUPPORT SOCKETKILL',
-        description: 'Help keep these tools free',
-        link: 'https://ko-fi.com/scottishdex',
-        cta: 'DONATE',
-        icon: 'https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_dark.png?_gl=1*i2rs49*_gcl_au*MzQ4ODkzODgxLjE3NjcyMDIxMDg.*_ga*NjEzNDk0NDM5LjE3NjcyMDIxMDg.*_ga_M13FZ7VQ2C*czE3NzE1MTE3ODIkbzgkZzEkdDE3NzE1MTE4NTQkajYwJGwwJGgw'
-    }
-    // Add more affiliates as needed
-];
 
 let currentAffiliateIndex = 0;
 let rotationInterval;
