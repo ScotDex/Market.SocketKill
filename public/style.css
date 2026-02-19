@@ -22,9 +22,18 @@ body {
     color: #3fb950;
     min-height: 100vh;
     position: relative;
+    animation: power-flicker 15s ease-in-out infinite;
     text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes power-flicker {
+    0%, 95% { opacity: 1; filter: brightness(1); }
+    96% { opacity: 0.85; filter: brightness(0.7); }
+    97% { opacity: 1; filter: brightness(1.2); }
+    98% { opacity: 0.9; filter: brightness(0.8); }
+    100% { opacity: 1; filter: brightness(1); }
 }
 
 ::selection {
@@ -203,6 +212,7 @@ body {
     border: 1px solid rgba(63, 185, 80, 0.2);
     border-radius: 4px;
     transition: all 0.2s;
+    animation: hub-idle-pulse 8s ease-in-out infinite;
 }
 
 .hub-row:hover {
@@ -247,6 +257,17 @@ body {
 @keyframes beta-pulse {
     0%, 100% { opacity: 0.8; }
     50% { opacity: 1; }
+}
+
+@keyframes hub-idle-pulse {
+    0%, 100% { 
+        border-color: rgba(63, 185, 80, 0.2);
+        box-shadow: none;
+    }
+    50% { 
+        border-color: rgba(63, 185, 80, 0.35);
+        box-shadow: 0 0 8px rgba(63, 185, 80, 0.1);
+    }
 }
 
 
