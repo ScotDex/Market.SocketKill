@@ -1,5 +1,13 @@
 # Market.SocketKill.com - Changelog
 
+## v0.0.2-BETA - February 2025
+
+- Removed all trace of adsense as it is trash
+- Replaced with rotational advertisement - affiliates and referals only permitted.
+- Minor level of Monetization but does not take away from the main performance.
+- Integrates with theme
+
+
 ## v0.0.1-BETA - February 2025
 
 ### Initial Public Beta Release
