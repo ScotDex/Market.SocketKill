@@ -1,3 +1,5 @@
+
+import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.mjs';
 const API_BASE = ''; 
 
 function updateClock() {
@@ -19,18 +21,31 @@ function rotateNebula() {
 
 document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 setInterval(rotateNebula, 300000);
+
+
 let itemCache = [];
+let fuse; 
+
 
 async function loadMarketItems() {
     try {
         const response = await fetch('/data/market-items.json');
         itemCache = await response.json();
-        console.log(`✅ Loaded ${itemCache.length} market items`);
+        
+        // Initialize Fuse.js settings
+        fuse = new Fuse(itemCache, {
+            keys: ['name'],
+            threshold: 0.3,        // 0 = exact match, 1 = match anything
+            distance: 100,         // Max distance for fuzzy match
+            minMatchCharLength: 2, // Minimum characters to match
+            ignoreLocation: true   // Search anywhere in string
+        });
+        
+        console.log(`✅ Loaded ${itemCache.length} market items with fuzzy search`);
     } catch (err) {
         console.error('❌ Failed to load market items:', err);
     }
 }
-
 let affiliates = [];
 async function loadAffiliates() {
     const response = await fetch('/data/ads.json');
@@ -51,15 +66,17 @@ searchInput.parentElement.appendChild(suggestionsContainer);
 let selectedIndex = -1;
 
 searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase().trim();
+    const term = e.target.value.trim();
+    
+    // Minimum 2 characters
     if (term.length < 2) {
         hideSuggestions();
         return;
     }
     
-    const matches = itemCache
-        .filter(item => item.name.toLowerCase().includes(term))
-        .slice(0, 6); 
+    // Use Fuse.js for fuzzy search
+    const results = fuse.search(term);
+    const matches = results.map(r => r.item).slice(0, 6);
     
     if (matches.length === 0) {
         hideSuggestions();
@@ -68,7 +85,6 @@ searchInput.addEventListener('input', (e) => {
     
     showSuggestions(matches);
 });
-
 function showSuggestions(items) {
     selectedIndex = -1;
     
