@@ -333,6 +333,19 @@ body {
     60% { content: '...'; }
 }
 
+.audio-toggle {
+    background: transparent;
+    border: 1px solid rgba(63, 185, 80, 0.3);
+    color: var(--neon-green);
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.audio-toggle:hover {
+    background: rgba(63, 185, 80, 0.1);
+}
 
 .plex-ticker {
     margin-top: 20px;

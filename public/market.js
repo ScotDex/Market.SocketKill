@@ -1,6 +1,8 @@
 
 import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.mjs';
 const API_BASE = ''; 
+const searchSound = new Audio('/data/churn.mp3');
+searchSound.volume = 0.3
 
 function updateClock() {
     const now = new Date();
@@ -22,6 +24,23 @@ function rotateNebula() {
 document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 setInterval(rotateNebula, 300000);
 
+let audioEnabled = true;
+
+document.getElementById('audio-toggle')?.addEventListener('click', (e) => {
+    audioEnabled = !audioEnabled;
+    e.target.textContent = audioEnabled ? '🔊' : '🔇';
+    localStorage.setItem('audioEnabled', audioEnabled);
+});
+
+// Restore preference
+audioEnabled = localStorage.getItem('audioEnabled') !== 'false';
+const toggle = document.getElementById('audio-toggle');
+if (toggle) toggle.textContent = audioEnabled ? '🔊' : '🔇';
+
+// Only play if enabled
+if (audioEnabled) {
+    searchSound.play().catch(() => {});
+}
 
 async function updatePlexPrice() {
     try {
@@ -149,13 +168,18 @@ searchInput.addEventListener('keydown', (e) => {
         selectedIndex = Math.max(selectedIndex - 1, -1);
         updateSelection(items);
     } else if (e.key === 'Enter') {
+        e.preventDefault();
+        
+        // Play sound when search starts
+        searchSound.currentTime = 0; // Reset to start
+        searchSound.play().catch(() => {}); // Silent fail if blocked
+        
         if (selectedIndex >= 0 && items[selectedIndex]) {
             const name = items[selectedIndex].dataset.name;
             searchInput.value = name;
             hideSuggestions();
             searchItem(name);
         } else {
-            // Enter without selection - search whatever is typed
             const query = searchInput.value.trim();
             if (query) {
                 hideSuggestions();
