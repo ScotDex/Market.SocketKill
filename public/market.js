@@ -23,6 +23,33 @@ document.body.style.backgroundImage = `url(https://api.socketkill.com/random)`;
 setInterval(rotateNebula, 300000);
 
 
+async function updatePlexPrice() {
+    try {
+        // PLEX type ID is 44992
+        const res = await fetch(`${API_BASE}/api/market/compare?name=PLEX`);
+        const data = await res.json();
+        
+        if (!data.error) {
+            // Get Jita price
+            const jitaHub = data.hubs.find(h => h.hub.toLowerCase() === 'jita');
+            if (jitaHub && jitaHub.lowestSell) {
+                document.getElementById('plex-price').textContent = 
+                    formatPrice(jitaHub.lowestSell) + ' ISK';
+            }
+        }
+    } catch (err) {
+        console.error('Failed to load PLEX price:', err);
+        document.getElementById('plex-price').textContent = 'N/A';
+    }
+}
+
+// Call on page load
+updatePlexPrice();
+
+// Refresh every 5 minutes
+setInterval(updatePlexPrice, 300000);
+
+
 let itemCache = [];
 let fuse; 
 

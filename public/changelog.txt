@@ -8,14 +8,14 @@ AI Generated Change Log (Because im Lazy)
 **Status:** Core features complete, polish phase
 
 #### ✅ Completed (Session 11-12)
-- [x] AdSense removed (replaced with self-managed affiliate rotation)
+- [x] AdSense removed (replaced with self-managed affiliate rotation) - Options to expand using eve player banners
 - [x] Affiliate rotation system (4 partners, 15s cycles, manual navigation)
 - [x] Affiliate config extracted to JSON (`/data/ads.json`)
 - [x] Rebranded from "MARKET_SCANNER" to "TRADE TERMINAL"
 - [x] Unified `/random` image endpoint (shared with Socket.Kill)
 - [x] Atmospheric effects (power flicker every 25-75s to give the idea of old and worn out)
 - [x] Item autocomplete (13,000+ market items from CCP SDE)
-- [ ] Fuzzy search filtering (2+ character trigger although not magnificent)
+- [x] Fuzzy search filtering (2+ character trigger although not magnificent)
 - [x] Keyboard navigation (Arrow keys, Enter, Escape)
 - [x] Static file serving (`/data/market-items.json`)
 - [x] Code cleanup (modular structure, separated concerns)
