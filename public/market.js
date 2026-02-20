@@ -2,7 +2,7 @@
 import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.mjs';
 const API_BASE = ''; 
 const searchSound = new Audio('/data/churn.mp3');
-searchSound.volume = 0.3
+searchSound.volume = 0.1
 
 function updateClock() {
     const now = new Date();
