@@ -334,10 +334,10 @@ body {
 }
 
 
-
 .plex-ticker {
     margin-top: 20px;
-    padding: 15px 20px;
+    margin-bottom: 20px;
+    padding: 15px 30px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 215, 0, 0.3);
     border-radius: 4px;
@@ -376,8 +376,8 @@ body {
 
 .plex-info {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: baseline;
+    gap: 10px;
 }
 
 .plex-price {
@@ -390,9 +390,8 @@ body {
 
 .plex-subtext {
     color: rgba(255, 215, 0, 0.5);
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     letter-spacing: 1px;
-    margin-top: 2px;
 }
 
 /* === FOOTER === */
